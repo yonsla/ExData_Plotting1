@@ -1,0 +1,21 @@
+library(dplyr)
+myData<- read.table("household_power_consumption.txt",sep=";", header=TRUE)
+myData$Date <- as.character(myData$Date)
+myData<- filter(myData, Date=="1/2/2007" | Date=="2/2/2007")
+myData$Sub_metering_1 <- as.numeric(
+  as.character(myData$Sub_metering_1))
+myData$Sub_metering_2 <- as.numeric(
+  as.character(myData$Sub_metering_2))
+myData$Sub_metering_3 <- as.numeric(
+  as.character(myData$Sub_metering_3))
+png(filename="plot3.png")
+plot(myData$Sub_metering_1, type="l", axes=FALSE, ann=FALSE)
+lines(myData$Sub_metering_2, type="l", col="red")
+lines(myData$Sub_metering_3, type="l", col="blue")
+axis(1, at=c(1,1440,2880), lab=c("Thu","Fri","Sat"))
+axis(2, las=1, at=10*0:3)
+box()
+title(ylab="Energy sub metering")
+legend("topright",legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3")
+       ,col=c("black","blue","red"),lty=c(1,1,1))
+dev.off()

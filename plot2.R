@@ -1,0 +1,13 @@
+library(dplyr)
+myData<- read.table("household_power_consumption.txt",sep=";", header=TRUE)
+myData$Date <- as.character(myData$Date)
+myData<- filter(myData, Date=="1/2/2007" | Date=="2/2/2007")
+myData$Global_active_power <- as.numeric(
+  as.character(myData$Global_active_power))
+png(filename="plot2.png")
+plot(1:2880, myData$Global_active_power,type="l", axes=FALSE, ann=FALSE)
+axis(1, at=c(1,1440,2880), lab=c("Thu","Fri","Sat"))
+axis(2, las=1, at=2*0:3)
+box()
+title(ylab="Global Active Power (kilowatts)")
+dev.off()
